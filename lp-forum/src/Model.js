@@ -4,18 +4,14 @@ import ReactMarkdown from "react-markdown";
 import "github-markdown-css";
 import { Divider, Comment, Avatar } from "antd";
 
-const { Octokit } = require("@octokit/rest");
-const octokit = new Octokit();
-
 export default class Comments extends Component {
   constructor(props) {
     super(props);
     this.commentBox = React.createRef();
-    this.id = window.location.href.toString().split("=").pop();
+    this.id = this.props.issue.number.toString();
     this.state = {
-      issue: [],
+      issue: this.props.issue,
     };
-    console.log(this.id);
   }
 
   async componentDidMount() {
@@ -27,11 +23,6 @@ export default class Comments extends Component {
     script.setAttribute("crossorigin", "anonymous");
     script.setAttribute("async", true);
     this.commentBox.current.appendChild(script);
-    octokit
-      .request("GET /repos/WeiningLi/card-forum/issues/" + this.id)
-      .then((response) => {
-        this.setState({ issue: response.data });
-      });
   }
 
   render() {
