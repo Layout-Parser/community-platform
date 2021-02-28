@@ -1,6 +1,7 @@
 import "./styles/App.scss";
 import Header from "./components/header";
 import React, { Component } from "react";
+import ReactMarkdown from 'react-markdown'
 
 import { Row, Col } from "antd";
 import "antd/dist/antd.css";
@@ -11,9 +12,7 @@ const octokit = new Octokit();
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.issues = [];
     this.state = {
-      category: "models",
       issues: [],
     };
   }
@@ -30,14 +29,28 @@ export default class App extends Component {
     issues.forEach( issue => {
       cols.push(
         <Col span={8} className="center-col">
-          <button
+          <div
             className="model-card"
             id={issue.number}
             onClick={(event) => {
-              console.log("select model event with id", event.target.id);
-              window.location.href="./model?id=" + event.target.id;
+              if (!event.target.id) {
+                var trackEvent = event.target;
+                while (!trackEvent.id) {
+                  trackEvent = trackEvent.parentElement;
+                }
+                window.location.href="./model?id=" + trackEvent.id;
+              }
+              else {
+                window.location.href="./model?id=" + event.target.id;
+              }
             }}
-          >{issue.title}</button>
+          >
+            <span id={issue.number} className="card-title">{issue.title}</span>
+            <ReactMarkdown onClick={(e) => {
+              e.preventDefault()
+            }} id={issue.number} className="card-body">{issue.body}</ReactMarkdown>
+            <span id={issue.number} className="card-author">{issue.user.login}</span>
+          </div>
         </Col>
       );
     });
@@ -57,8 +70,25 @@ export default class App extends Component {
         </Row>
       );
     }
-    console.log(openingIssues);
+    // console.log(openingIssues);
     return rows;
+  }
+
+  sideBarIssues = (category) => {
+    const { issues } = this.state;
+    var models = [];
+    const openingIssues = issues.filter(issue => issue.state === "open");
+    openingIssues.forEach(issue => {
+      const labels = issue.labels.map(issue => issue.name)
+      if (labels.includes(category)) {
+        models.push(
+          <li>
+            <a href={"./model?id=" + issue.number} >{issue.title}</a>
+          </li>
+        );
+      }
+    });
+    return models;
   }
 
   render() {
@@ -71,27 +101,17 @@ export default class App extends Component {
             <aside className="menu menu-padding">
               <p className="menu-label">Models</p>
               <ul className="menu-list">
-                <li>
-                  <a>Model 1</a>
-                </li>
-                <li>
-                  <a>Model 2</a>
-                </li>
+                {this.sideBarIssues("model")}
               </ul>
               <p className="menu-label">Pipelines</p>
               <ul className="menu-list">
-                <li>
-                  <a>Pipeline 1</a>
-                </li>
-                <li>
-                  <a>Pipeline 2</a>
-                </li>
+              {this.sideBarIssues("pipeline")}
               </ul>
             </aside>
           </Col>
           <Col span={20}>
             <div className="site-card-wrapper">
-              <span className="title">Models</span>
+              <span className="title">Models / Pipelines</span>
               {this.drawModels()}
             </div>
           </Col>

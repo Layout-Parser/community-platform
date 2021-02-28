@@ -42,8 +42,7 @@ $dark-red: #e43838;
     border-radius: 5px;
     border: 1px solid $dark-red;
     background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%) !important;
-    outline: none;
-    padding: 50px;
+    padding: 1vw;
     width: 80%;
     height: 80%;
     font-size: 1vw;
@@ -52,9 +51,27 @@ $dark-red: #e43838;
     transition: 0.5s;
 }
 
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 0.5vw;
+    height: 20%;
+}
+
+
+.card-body {
+    font-size: 1em;
+    height: 50%;
+}
+.card-author {
+    font-size: 1.2em;
+}
+
+.card-title,
+.card-body,
+.card-author,
 .model-txt {
     float: left;
-    display: block;
+    width: 100%;
 }
 
 .model-card:hover {
@@ -63,6 +80,7 @@ $dark-red: #e43838;
     font-size: 1.125vw;
     width: 90%;
     height: 90%;
+    padding: 1.125vw;
 }
 
 .center-col {
