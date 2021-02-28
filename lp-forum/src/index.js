@@ -6,7 +6,7 @@ import App from './App'
 const routing = (
   <Router>
     <div>
-      <Route exact path="/" component={App}/>
+      <Route exact path="/community-platform" component={App}/>
     </div>
   </Router>
 )
