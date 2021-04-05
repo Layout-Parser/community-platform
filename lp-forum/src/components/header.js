@@ -9,7 +9,7 @@ function Header() {
         <nav className="navbar lp-navbar" role="navigation">
           <div className="container">
             <div className="navbar-brand">
-              <a className="navbar-item" href="./">
+              <a className="navbar-item" href="https://layout-parser.github.io/">
                 <img src={image} alt="Logo" className="lp-badge"></img>
               </a>
 
@@ -30,7 +30,7 @@ function Header() {
 
             <div className="navbar-menu" id="navbar-main">
               <div className="navbar-end">
-                <a href="./" className="navbar-item">
+                <a href="https://layout-parser.github.io/tutorials.html" className="navbar-item">
                   Tutorials
                 </a>
                 <a
@@ -41,7 +41,7 @@ function Header() {
                 >
                   Docs
                 </a>
-                <a href="./" className="navbar-item">
+                <a href="https://join.slack.com/t/layout-parser/shared_invite/zt-ohjd14k1-OrJ2HltwVRGrxhLeHMfW_w" className="navbar-item">
                   Discussion
                 </a>
                 <div className="navbar-item">

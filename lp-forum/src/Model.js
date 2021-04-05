@@ -2,7 +2,8 @@ import "./styles/Model.scss";
 import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 import "github-markdown-css";
-import { Divider, Comment, Avatar } from "antd";
+import { Divider, Comment, Avatar, Button } from "antd";
+import { LeftSquareOutlined } from "@ant-design/icons";
 
 export default class Comments extends Component {
   constructor(props) {
@@ -27,10 +28,20 @@ export default class Comments extends Component {
 
   render() {
     const { issue } = this.state;
-    console.log(issue)
+    console.log(issue);
 
     return (
       <p className="model-container">
+        <div>
+          <Button
+            className="return-btn"
+            type="text"
+            icon={<LeftSquareOutlined />}
+            onClick={this.props.back}
+          >
+            Return to List
+          </Button>
+        </div>
         <span className="issue-title">{issue.title}</span>
         <Divider />
         <div class="issue-body">
@@ -38,9 +49,9 @@ export default class Comments extends Component {
             <Comment
               author={
                 <header className="comment-header">
-                <span className="issue-author">
-                  {issue.user ? issue.user.login : null}
-                </span>
+                  <span className="issue-author">
+                    {issue.user ? issue.user.login : null}
+                  </span>
                 </header>
               }
               avatar={
@@ -51,9 +62,7 @@ export default class Comments extends Component {
                   alt={issue.user ? issue.user.login : null}
                 />
               }
-              content={
-                <ReactMarkdown>{issue.body}</ReactMarkdown>
-              }
+              content={<ReactMarkdown>{issue.body}</ReactMarkdown>}
             />
           </div>
         </div>

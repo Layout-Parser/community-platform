@@ -20,6 +20,15 @@ export default class App extends Component {
       issueNumber: -1,
       issue: null,
     };
+    this.backToMain = this.backToMain.bind(this)
+  }
+
+  backToMain() {
+    this.setState({
+      page: 'main',
+      issueNumber: -1,
+      issue: null,
+    })
   }
 
   componentDidMount() {
@@ -46,12 +55,16 @@ export default class App extends Component {
                 }
               }
               issues.forEach((aIssue) => {
-                console.log(trackEvent.id)
+                console.log(trackEvent.id);
                 if (aIssue.number.toString() === trackEvent.id) {
                   issue = aIssue;
                 }
               });
-              this.setState({ page: "comments", issueNumber: trackEvent.id, issue: issue });
+              this.setState({
+                page: "comments",
+                issueNumber: trackEvent.id,
+                issue: issue,
+              });
             }}
           >
             <span id={issue.number} className="card-title">
@@ -115,7 +128,6 @@ export default class App extends Component {
                   issueNumber: event.target.id,
                   issue: issue,
                 });
-                
               }}
             >
               {issue.title}
@@ -151,7 +163,7 @@ export default class App extends Component {
             </Col>
           </Row>
         ) : (
-          <Model issue={issue} />
+          <Model issue={issue} back={this.backToMain} />
         )}
       </div>
     );
