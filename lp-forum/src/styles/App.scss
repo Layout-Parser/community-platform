@@ -50,13 +50,20 @@ $dark-red: #e43838;
     color: white;
     transition: 0.5s;
 }
+.model-card:hover {
+    border: 1px solid transparent;
+    color: white;
+    font-size: 1.125vw;
+    width: 90%;
+    height: 90%;
+    padding: 1.125vw;
+}
 
 .card-title {
     font-size: 1.5em;
     margin-bottom: 0.5vw;
     height: 20%;
 }
-
 
 .card-body {
     font-size: 1em;
@@ -74,15 +81,6 @@ $dark-red: #e43838;
     width: 100%;
 }
 
-.model-card:hover {
-    border: 1px solid transparent;
-    color: white;
-    font-size: 1.125vw;
-    width: 90%;
-    height: 90%;
-    padding: 1.125vw;
-}
-
 .center-col {
     display: flex !important;
     align-items: center !important;
@@ -95,4 +93,30 @@ $dark-red: #e43838;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 1vw;
     margin-right: 2vw;
+}
+
+@media ( max-width:600px ) {
+    .site-card-wrapper {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .center-col {
+        height: 200px;
+    }
+
+    .title {
+        font-size: 5vw !important;
+    }
+
+    .model-card {
+        width: 80%;
+        height: 80%;
+        font-size: 2.8vw;
+    }
+    .model-card:hover {
+        font-size: 2.8vw;
+        width: 80%;
+        height: 80%;
+        padding: 1vw;
+    }
 }

@@ -14,21 +14,24 @@ const octokit = new Octokit();
 export default class App extends Component {
   constructor(props) {
     super(props);
+    var ua = navigator.userAgent;
+    this.isMobile = /Android|iPhone/i.test(ua);
+    this.isMobile = !this.isMobile;
     this.state = {
       issues: [],
       page: "main",
       issueNumber: -1,
       issue: null,
     };
-    this.backToMain = this.backToMain.bind(this)
+    this.backToMain = this.backToMain.bind(this);
   }
 
   backToMain() {
     this.setState({
-      page: 'main',
+      page: "main",
       issueNumber: -1,
       issue: null,
-    })
+    });
   }
 
   componentDidMount() {
@@ -42,7 +45,7 @@ export default class App extends Component {
     var cols = [];
     issues.forEach((issue) => {
       cols.push(
-        <Col span={8} className="center-col">
+        <Col span={this.isMobile ? 24 : 8} className="center-col">
           <div
             className="model-card"
             id={issue.number}
@@ -141,21 +144,25 @@ export default class App extends Component {
 
   render() {
     const { page, issue } = this.state;
-    console.log("here", issue);
+    console.log("issues", issue);
     return (
       <div>
         <Header />
         {page === "main" ? (
           <Row>
-            <Col span={4}>
-              <aside className="menu menu-padding">
-                <p className="menu-label">Models</p>
-                <ul className="menu-list">{this.sideBarIssues("model")}</ul>
-                <p className="menu-label">Pipelines</p>
-                <ul className="menu-list">{this.sideBarIssues("pipeline")}</ul>
-              </aside>
-            </Col>
-            <Col span={20}>
+            {this.isMobile ? null : (
+              <Col span={4}>
+                <aside className="menu menu-padding">
+                  <p className="menu-label">Models</p>
+                  <ul className="menu-list">{this.sideBarIssues("model")}</ul>
+                  <p className="menu-label">Pipelines</p>
+                  <ul className="menu-list">
+                    {this.sideBarIssues("pipeline")}
+                  </ul>
+                </aside>
+              </Col>
+            )}
+            <Col span={this.isMobile ? 24 : 20}>
               <div className="site-card-wrapper">
                 <span className="title">Models / Pipelines</span>
                 {this.drawModels()}
