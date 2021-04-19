@@ -16,7 +16,6 @@ export default class App extends Component {
     super(props);
     var ua = navigator.userAgent;
     this.isMobile = /Android|iPhone/i.test(ua);
-    this.isMobile = !this.isMobile;
     this.state = {
       issues: [],
       page: "main",
