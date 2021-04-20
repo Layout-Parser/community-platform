@@ -14,17 +14,20 @@ const octokit = new Octokit();
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      issues: [], // all issues
+      page: "main", // main | comments
+      issueNumber: -1, // selected issue #
+      issue: null, // selected issue
+      category: ["model", "pipeline"], // models, pipelines
+      tags: [], // selected tags
+    };
     var ua = navigator.userAgent;
     this.isMobile = /Android|iPhone/i.test(ua);
-    this.state = {
-      issues: [],
-      page: "main",
-      issueNumber: -1,
-      issue: null,
-    };
     this.backToMain = this.backToMain.bind(this);
   }
 
+  // call in Model component, back to main listing page
   backToMain() {
     this.setState({
       page: "main",
@@ -39,9 +42,10 @@ export default class App extends Component {
       .then((response) => this.setState({ issues: response.data }));
   }
 
+  // draw each row of cards of models / pipelines
   drawRows = (issues) => {
     if (issues.length === 0) return null;
-    var cols = [];
+    let cols = [];
     issues.forEach((issue) => {
       cols.push(
         <Col span={this.isMobile ? 24 : 8} className="center-col">
@@ -49,8 +53,8 @@ export default class App extends Component {
             className="model-card"
             id={issue.number}
             onClick={(event) => {
-              var trackEvent = event.target;
-              var issue;
+              let trackEvent = event.target;
+              let issue;
               if (!event.target.id) {
                 while (!trackEvent.id) {
                   trackEvent = trackEvent.parentElement;
@@ -91,14 +95,31 @@ export default class App extends Component {
     return cols;
   };
 
+  // draw all cards of models / pipelines
   drawModels = () => {
-    const { issues } = this.state;
-    var rows = [];
-    var i,
+    const { issues, category, tags } = this.state;
+    let taggedIssues = []
+    issues.forEach((issue) => {
+      const labels = issue.labels.map(label => label.name);
+      
+      console.log("here", labels)
+      const selectedCate = category.some(tag=> labels.includes(tag))
+      const selectedTag = tags.every(tag=> labels.includes(tag))
+      if (selectedCate && selectedTag) {
+        taggedIssues.push(issue)
+      }
+    })
+    if (!taggedIssues.length) {
+      return (
+        <Row><span className="err-msg">No results found!  Please try search again.</span></Row>
+      );
+    }
+    let rows = [];
+    let i,
       j,
       groupedIssues,
       chunk = 3;
-    const openingIssues = issues.filter((issue) => issue.state === "open");
+    const openingIssues = taggedIssues.filter((issue) => issue.state === "open");
     for (i = 0, j = openingIssues.length; i < j; i += chunk) {
       groupedIssues = openingIssues.slice(i, i + chunk);
       rows.push(<Row>{this.drawRows(groupedIssues)}</Row>);
@@ -107,61 +128,92 @@ export default class App extends Component {
     return rows;
   };
 
-  sideBarIssues = (category) => {
-    const { issues } = this.state;
-    var models = [];
-    const openingIssues = issues.filter((issue) => issue.state === "open");
-    openingIssues.forEach((issue) => {
-      const labels = issue.labels.map((issue) => issue.name);
-      if (labels.includes(category)) {
-        models.push(
-          <li>
-            <a
-              id={issue.number}
-              onClick={(event) => {
-                var issue;
-                issues.forEach((aIssue) => {
-                  if (aIssue.number.toString() === event.target.id) {
-                    issue = aIssue;
-                  }
-                });
-                this.setState({
-                  page: "comments",
-                  issueNumber: event.target.id,
-                  issue: issue,
-                });
-              }}
-            >
-              {issue.title}
-            </a>
-          </li>
-        );
+  // draw tags in left side bar
+  tag = (tag) => {
+    return (
+      <button
+        className={
+          (this.state.tags.includes(tag) || this.state.category.includes(tag))
+            ? "selected-tag"
+            : "unselected-tag"
+        }
+        onClick={() => {
+          this.flipTag(tag);
+        }}
+      >
+        {tag}
+      </button>
+    );
+  };
+
+  // select / unselect a tag in left side bar
+  flipTag = (tag) => {
+    if ((tag === "model") || (tag === "pipeline")) {
+      let selectedCategory = [...this.state.category];
+      if (selectedCategory.includes(tag)) {
+        this.setState({
+          category: this.state.category.filter(function (selectedCategory) {
+            return selectedCategory !== tag;
+          }),
+        });
+      } else {
+        selectedCategory.push(tag);
+        this.setState({ category: selectedCategory });
       }
+    } else {
+      let selectedtags = [...this.state.tags];
+      if (selectedtags.includes(tag)) {
+        this.setState({
+          tags: this.state.tags.filter(function (selectedTag) {
+            return selectedTag !== tag;
+          }),
+        });
+      } else {
+        selectedtags.push(tag);
+        this.setState({ tags: selectedtags });
+      }
+    }
+  };
+
+  drawTags = () => {
+    const { issues } = this.state;
+    let tags = new Set();
+    let tagElements = [];
+    issues.forEach((issue) => {
+      issue.labels.forEach((label) => {
+        tags.add(label.name);
+      });
     });
-    return models;
+    // looking for all tags except model and pipeline which are included in category
+    tags.delete("model");
+    tags.delete("pipeline");
+    tags.forEach((tag) => {
+      tagElements.push(this.tag(tag));
+    });
+    return tagElements;
   };
 
   render() {
     const { page, issue } = this.state;
-    console.log("issues", issue);
     return (
       <div>
         <Header />
         {page === "main" ? (
           <Row>
             {this.isMobile ? null : (
-              <Col span={4}>
+              <Col span={6}>
                 <aside className="menu menu-padding">
-                  <p className="menu-label">Models</p>
-                  <ul className="menu-list">{this.sideBarIssues("model")}</ul>
-                  <p className="menu-label">Pipelines</p>
-                  <ul className="menu-list">
-                    {this.sideBarIssues("pipeline")}
-                  </ul>
+                  <p className="menu-label">Categories</p>
+                  <Row>
+                    {this.tag("model")}
+                    {this.tag("pipeline")}
+                  </Row>
+                  <p className="menu-label">Tags</p>
+                  <Row>{this.drawTags()}</Row>
                 </aside>
               </Col>
             )}
-            <Col span={this.isMobile ? 24 : 20}>
+            <Col span={this.isMobile ? 24 : 18}>
               <div className="site-card-wrapper">
                 <span className="title">Models / Pipelines</span>
                 {this.drawModels()}
