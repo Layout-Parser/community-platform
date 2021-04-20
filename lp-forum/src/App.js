@@ -190,11 +190,11 @@ export default class App extends Component {
     let tags = new Set();
     let tagElements = [];
     issues.forEach((issue) => {
-      const labels = issue.labels;
+      const labels = issue.labels.map(label => label.name);
       // only need tags for model / pipeline issues
       if (labels.includes("model") || labels.includes("pipeline")) {
-        issue.labels.forEach((label) => {
-          tags.add(label.name);
+        labels.forEach((label) => {
+          tags.add(label);
         });
       }
     });
