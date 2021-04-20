@@ -83,7 +83,7 @@ $dark-red: #e8304f;
   font-size: 1vw;
   font-family: "Fira Sans Extra Condensed", sans-serif;
   color: white;
-  transition: 0.3s;
+  transition: 0.1s;
 }
 .model-card:hover {
   border: 1px solid transparent;
@@ -99,9 +99,8 @@ $dark-red: #e8304f;
   margin-bottom: 0.5vw;
   height: 20%;
 }
-
 .card-body {
-  font-size: 1em;
+  font-size: 1em !important;
   height: 50%;
 }
 .card-author {
