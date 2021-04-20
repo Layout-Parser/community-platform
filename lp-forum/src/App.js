@@ -21,10 +21,12 @@ export default class App extends Component {
       issue: null, // selected issue
       category: ["model", "pipeline"], // models, pipelines
       tags: [], // selected tags
+      seacrhText: "",
     };
     var ua = navigator.userAgent;
     this.isMobile = /Android|iPhone/i.test(ua);
     this.backToMain = this.backToMain.bind(this);
+    this.searchRef = React.createRef();
   }
 
   // call in Model component, back to main listing page
@@ -61,7 +63,6 @@ export default class App extends Component {
                 }
               }
               issues.forEach((aIssue) => {
-                console.log(trackEvent.id);
                 if (aIssue.number.toString() === trackEvent.id) {
                   issue = aIssue;
                 }
@@ -97,18 +98,22 @@ export default class App extends Component {
 
   // draw all cards of models / pipelines
   drawModels = () => {
-    const { issues, category, tags } = this.state;
+    const { issues, category, tags, seacrhText } = this.state;
     let taggedIssues = [];
     issues.forEach((issue) => {
       const labels = issue.labels.map((label) => label.name);
 
-      console.log("here", labels);
       const selectedCate = category.some((tag) => labels.includes(tag));
       const selectedTag = tags.every((tag) => labels.includes(tag));
       if (selectedCate && selectedTag) {
         taggedIssues.push(issue);
       }
     });
+    if (seacrhText !== "") {
+      taggedIssues = taggedIssues.filter((issue) => {
+        return issue.title.toLowerCase().includes(seacrhText) || issue.body.toLowerCase().includes(seacrhText)
+      })
+    }
     if (!taggedIssues.length) {
       return (
         <Row>
@@ -130,7 +135,6 @@ export default class App extends Component {
       groupedIssues = openingIssues.slice(i, i + chunk);
       rows.push(<Row>{this.drawRows(groupedIssues)}</Row>);
     }
-    // console.log(openingIssues);
     return rows;
   };
 
@@ -223,10 +227,20 @@ export default class App extends Component {
               <div className="site-card-wrapper">
                 <Row style={{ marginBottom: "2vw" }}>
                   <input
+                    ref={this.searchRef}
                     className="search-bar"
                     placeholder="Search Title / Description"
                   />
-                  <button className="search-btn">search</button>
+                  <button
+                    className="search-btn"
+                    onClick={() => {
+                      this.setState({
+                        seacrhText: this.searchRef.current.value.toLowerCase(),
+                      });
+                    }}
+                  >
+                    search
+                  </button>
                 </Row>
                 <span className="title">Models / Pipelines</span>
                 {this.drawModels()}
@@ -234,7 +248,11 @@ export default class App extends Component {
             </Col>
           </Row>
         ) : (
-          <Model issue={issue} back={this.backToMain} isMobile={this.isMobile} />
+          <Model
+            issue={issue}
+            back={this.backToMain}
+            isMobile={this.isMobile}
+          />
         )}
       </div>
     );

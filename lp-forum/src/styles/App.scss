@@ -100,7 +100,7 @@ $dark-red: #e8304f;
   height: 20%;
 }
 .card-body {
-  font-size: 1em !important;
+  font-size: 1em;
   height: 50%;
 }
 .card-author {
@@ -165,10 +165,11 @@ $dark-red: #e8304f;
 
   .search-bar {
     font-size: 4vw;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
   }
   .search-bar:focus {
-    border-bottom: 1px solid $dark-red;
+    border-bottom: 2px solid $dark-red;
   }
   .search-btn {
     font-size: 4vw;
@@ -185,12 +186,13 @@ $dark-red: #e8304f;
   .model-card {
     width: 80%;
     height: 80%;
-    font-size: 2.8vw;
+    font-size: 3vw;
+    padding: 3vw;
   }
   .model-card:hover {
-    font-size: 2.8vw;
+    font-size: 3vw;
     width: 80%;
     height: 80%;
-    padding: 1vw;
+    padding: 3vw;
   }
 }
