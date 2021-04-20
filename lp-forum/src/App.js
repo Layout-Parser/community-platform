@@ -98,20 +98,24 @@ export default class App extends Component {
   // draw all cards of models / pipelines
   drawModels = () => {
     const { issues, category, tags } = this.state;
-    let taggedIssues = []
+    let taggedIssues = [];
     issues.forEach((issue) => {
-      const labels = issue.labels.map(label => label.name);
-      
-      console.log("here", labels)
-      const selectedCate = category.some(tag=> labels.includes(tag))
-      const selectedTag = tags.every(tag=> labels.includes(tag))
+      const labels = issue.labels.map((label) => label.name);
+
+      console.log("here", labels);
+      const selectedCate = category.some((tag) => labels.includes(tag));
+      const selectedTag = tags.every((tag) => labels.includes(tag));
       if (selectedCate && selectedTag) {
-        taggedIssues.push(issue)
+        taggedIssues.push(issue);
       }
-    })
+    });
     if (!taggedIssues.length) {
       return (
-        <Row><span className="err-msg">No results found!  Please try search again.</span></Row>
+        <Row>
+          <span className="err-msg">
+            No results found! Please try search again.
+          </span>
+        </Row>
       );
     }
     let rows = [];
@@ -119,7 +123,9 @@ export default class App extends Component {
       j,
       groupedIssues,
       chunk = 3;
-    const openingIssues = taggedIssues.filter((issue) => issue.state === "open");
+    const openingIssues = taggedIssues.filter(
+      (issue) => issue.state === "open"
+    );
     for (i = 0, j = openingIssues.length; i < j; i += chunk) {
       groupedIssues = openingIssues.slice(i, i + chunk);
       rows.push(<Row>{this.drawRows(groupedIssues)}</Row>);
@@ -133,7 +139,7 @@ export default class App extends Component {
     return (
       <button
         className={
-          (this.state.tags.includes(tag) || this.state.category.includes(tag))
+          this.state.tags.includes(tag) || this.state.category.includes(tag)
             ? "selected-tag"
             : "unselected-tag"
         }
@@ -148,7 +154,7 @@ export default class App extends Component {
 
   // select / unselect a tag in left side bar
   flipTag = (tag) => {
-    if ((tag === "model") || (tag === "pipeline")) {
+    if (tag === "model" || tag === "pipeline") {
       let selectedCategory = [...this.state.category];
       if (selectedCategory.includes(tag)) {
         this.setState({
@@ -215,6 +221,13 @@ export default class App extends Component {
             )}
             <Col span={this.isMobile ? 24 : 18}>
               <div className="site-card-wrapper">
+                <Row style={{ marginBottom: "2vw" }}>
+                  <input
+                    className="search-bar"
+                    placeholder="Search Title / Description"
+                  />
+                  <button className="search-btn">search</button>
+                </Row>
                 <span className="title">Models / Pipelines</span>
                 {this.drawModels()}
               </div>

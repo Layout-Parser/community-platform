@@ -4,45 +4,50 @@
 $navbar-item-img-max-height: 4rem;
 
 .lp-navbar {
-    height: 90px;
-    padding: 20px;
-    padding-bottom: 20px !important;
-    background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%);
+  height: 90px;
+  padding: 20px;
+  padding-bottom: 20px !important;
+  background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%);
 }
 
 .hero-head .lp-navbar {
-    padding-bottom: 0px;
+  padding-bottom: 0px;
 }
 
 .lp-badge {
-    height: 60px;
-    vertical-align: middle;
+  height: 60px;
+  vertical-align: middle;
 }
 
 .navbar-item {
-    font-family: $family-header;
-    font-weight: 400;
-    font-size: 1.15rem;
+  font-family: $family-header;
+  font-weight: 400;
+  font-size: 1.15rem;
 }
 
 a.navbar-item {
-    color: white !important;
+  color: white !important;
 }
 
 a.navbar-item:hover {
-    color: white !important;
-    background-color: $dark-red !important;
+  color: white !important;
+  background-color: $dark-red !important;
 }
 
 .navbar-menu.is-active {
-    color: white !important;
-    background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%) !important;
+  color: white !important;
+  background-image: linear-gradient(
+    141deg,
+    #e8304f 0%,
+    $red 71%,
+    #ec8c79 100%
+  ) !important;
 }
 
 a.navbar-item:focus {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 a.is-active {
-    background-color: $red !important;
+  background-color: $red !important;
 }
