@@ -1,17 +1,29 @@
+@import "./App.scss";
+
 .model-container {
-  padding: 50px 5vw;
+  padding: 20px 5vw;
 }
 
 .return-btn {
-  position: absolute !important;
-  left: 20px;
-  top: 105px;
+  padding-left: 0 !important;
+  color:black !important;
+  font-size: 20px !important;;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+}
+.return-btn:hover {
+  color: $dark-red !important;
+  background-image: transparent !important;
+}
+
+.top-divider {
+  margin: 10px !important;
 }
 
 .issue-title {
   width: 100%;
-  font-size: 2.5vw;
-  margin-bottom: 20px;
+  font-size: 25px;
+  margin-bottom: 10px;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
 }
 
 .issue-author {
@@ -25,17 +37,26 @@
   background-color: #f1f8ff;
   border: 1px solid #e1e4e8;
   border-bottom: none;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .ant-comment-content-detail {
   padding: 20px;
   border: 1px solid #e1e4e8;
 }
+
+// author avatar
+.ant-comment-avatar {
+  width: 44px !important;
+}
 .ant-comment-avatar img {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: auto !important;
   border-radius: 0 !important;
+}
+.author-avatar {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .issue-body {

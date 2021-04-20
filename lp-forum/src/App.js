@@ -234,7 +234,7 @@ export default class App extends Component {
             </Col>
           </Row>
         ) : (
-          <Model issue={issue} back={this.backToMain} />
+          <Model issue={issue} back={this.backToMain} isMobile={this.isMobile} />
         )}
       </div>
     );

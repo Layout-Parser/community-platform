@@ -35,6 +35,7 @@ $dark-red: #e8304f;
 // search related elements
 .search-bar {
   font-size: 25px;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
   border: none;
   outline: none;
   border-bottom: 3px solid black;
@@ -46,6 +47,8 @@ $dark-red: #e8304f;
 }
 .search-btn {
   font-size: 25px;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  font-weight: bold;
   border: none;
   background-color: transparent;
   transition: 0.3s;
@@ -120,11 +123,17 @@ $dark-red: #e8304f;
   height: 16vw;
 }
 
+// sidebar elements
 .menu-padding {
   height: 100%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 1vw;
   margin-right: 2vw;
+}
+
+.menu-label {
+  font-size: 1vw !important;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
 }
 
 .selected-tag {
@@ -156,10 +165,14 @@ $dark-red: #e8304f;
   }
 
   .search-bar {
-    font-size: 3vw;
+    font-size: 4vw;
+    border-bottom: 1px solid black;
+  }
+  .search-bar:focus {
+    border-bottom: 1px solid $dark-red;
   }
   .search-btn {
-    font-size: 3vw;
+    font-size: 4vw;
   }
 
   .center-col {
