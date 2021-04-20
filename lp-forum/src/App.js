@@ -190,9 +190,13 @@ export default class App extends Component {
     let tags = new Set();
     let tagElements = [];
     issues.forEach((issue) => {
-      issue.labels.forEach((label) => {
-        tags.add(label.name);
-      });
+      const labels = issue.labels;
+      // only need tags for model / pipeline issues
+      if (labels.includes("model") || labels.includes("pipeline")) {
+        issue.labels.forEach((label) => {
+          tags.add(label.name);
+        });
+      }
     });
     // looking for all tags except model and pipeline which are included in category
     tags.delete("model");
