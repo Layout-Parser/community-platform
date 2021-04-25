@@ -168,7 +168,9 @@ export default class App extends Component {
       });
     }
     if (!taggedIssues.length) {
-      this.setState({ modelCount: taggedIssues.length });
+      if (modelCount !== 0) {
+        this.setState({ modelCount: 0 });
+      }
       return (
         <Row>
           <span className="err-msg">
