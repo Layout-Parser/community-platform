@@ -29,7 +29,7 @@ $dark-red: #e8304f;
 .site-card-wrapper {
   min-height: 100vh;
   height: 100%;
-  padding: 10px 0px 50px 80px;
+  padding: 10px 0px 50px 3vw;
 }
 
 // standard left/right spacing
@@ -56,9 +56,9 @@ $dark-red: #e8304f;
   border: 1px solid lightgray;
   outline: none;
   border-radius: 12px;
-  width: 40%;
+  width: 30%;
   transition: 0.3s;
-  margin-left: 3vw;
+  margin-left: 1vw;
   padding-left: 10px;
 }
 .search-bar:focus {
@@ -75,10 +75,27 @@ $dark-red: #e8304f;
 .title {
   color: gray !important;
   margin: 0 !important;
-  display: inline;
-  vertical-align: middle;
-  font-size: 30px !important;
+  display: flex;
+  align-items: center !important;
+  font-size: 1.5vw !important;
   font-family: "Fira Sans Extra Condensed", sans-serif;
+  font-weight: 100 !important;
+}
+
+.sort-text {
+  color: gray !important;
+  display: flex;
+  width: fit-content;
+  float: right !important;
+  align-items: center !important;
+  font-size: 1.5vw !important;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+}
+
+.ant-select-selector {
+  color: gray !important;
+  border-color: lightgray !important;
+  box-shadow: none !important;
 }
 
 .model-card {
@@ -170,22 +187,18 @@ $dark-red: #e8304f;
   font-family: "Fira Sans Extra Condensed", sans-serif;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   .site-card-wrapper {
     padding: 20px 20px 20px 20px;
   }
 
   .search-bar {
     font-size: 4vw;
-    margin-bottom: 10px;
-  }
-  .search-btn {
-    font-size: 4vw;
-    margin-bottom: 10px;
+    width: 50%;
   }
 
   .center-col {
-    height: 200px;
+    height: 60vw;
   }
 
   .title {

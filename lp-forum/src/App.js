@@ -5,11 +5,13 @@ import Header from "./components/header";
 import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 
-import { Row, Col } from "antd";
+import { Row, Col, Select } from "antd";
 import "antd/dist/antd.css";
 
 const { Octokit } = require("@octokit/rest");
 const octokit = new Octokit();
+
+const { Option } = Select;
 
 export default class App extends Component {
   constructor(props) {
@@ -23,6 +25,8 @@ export default class App extends Component {
       tags: [], // selected tags
       seacrhText: "",
       modelCount: 0,
+      smallScreen: window.innerWidth < 760 ? true : false,
+      sortby: "popular",
     };
     var ua = navigator.userAgent;
     this.isMobile = /Android|iPhone/i.test(ua);
@@ -43,6 +47,18 @@ export default class App extends Component {
     octokit
       .request("GET /repos/WeiningLi/card-forum/issues")
       .then((response) => this.setState({ issues: response.data }));
+    window.addEventListener("resize", this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    const vw = window.innerWidth;
+    const { smallScreen } = this.state;
+    if (vw < 760 && !smallScreen) {
+      this.setState({smallScreen: true});
+    } 
+    if (vw > 760 && smallScreen) {
+      this.setState({smallScreen: false});
+    }
   }
 
   // draw each row of cards of models / pipelines
@@ -51,7 +67,7 @@ export default class App extends Component {
     let cols = [];
     issues.forEach((issue) => {
       cols.push(
-        <Col span={this.isMobile ? 24 : 12} className="center-col">
+        <Col span={this.isMobile || this.state.smallScreen ? 24 : 12} className="center-col">
           <div
             className="model-card"
             id={issue.number}
@@ -97,6 +113,39 @@ export default class App extends Component {
     return cols;
   };
 
+  // sort models / pipelines
+  sortIssues = (issues) => {
+    const { sortby } = this.state;
+    if (sortby === "alpha") {
+      issues.sort(function(a, b) {
+        var keyA = a.title,
+          keyB = b.title;
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+      });
+    }
+    else if (sortby === "date") {
+      issues.sort(function(a, b) {
+        var keyA = new Date(a.updated_at),
+          keyB = new Date(b.updated_at);
+        if (keyA < keyB) return 1;
+        if (keyA > keyB) return -1;
+        return 0;
+      });
+    }
+    else { // sort by comment number (i.e. popularity)
+      issues.sort(function(a, b) {
+        var keyA = a.comments,
+          keyB = b.comments;
+        if (keyA < keyB) return 1;
+        if (keyA > keyB) return -1;
+        return 0;
+      });
+    }
+    console.log(issues)
+  }
+
   // draw all cards of models / pipelines
   drawModels = () => {
     const { issues, category, tags, seacrhText, modelCount } = this.state;
@@ -112,8 +161,11 @@ export default class App extends Component {
     });
     if (seacrhText !== "") {
       taggedIssues = taggedIssues.filter((issue) => {
-        return issue.title.toLowerCase().includes(seacrhText) || issue.body.toLowerCase().includes(seacrhText)
-      })
+        return (
+          issue.title.toLowerCase().includes(seacrhText) ||
+          issue.body.toLowerCase().includes(seacrhText)
+        );
+      });
     }
     if (!taggedIssues.length) {
       return (
@@ -124,8 +176,11 @@ export default class App extends Component {
         </Row>
       );
     }
+    this.sortIssues(taggedIssues);
+    // console.log(taggedIssues)
+
     if (modelCount !== taggedIssues.length) {
-      this.setState({modelCount: taggedIssues.length});
+      this.setState({ modelCount: taggedIssues.length });
     }
     let rows = [];
     let i,
@@ -194,7 +249,7 @@ export default class App extends Component {
     let tags = new Set();
     let tagElements = [];
     issues.forEach((issue) => {
-      const labels = issue.labels.map(label => label.name);
+      const labels = issue.labels.map((label) => label.name);
       // only need tags for model / pipeline issues
       if (labels.includes("model") || labels.includes("pipeline")) {
         labels.forEach((label) => {
@@ -212,13 +267,13 @@ export default class App extends Component {
   };
 
   render() {
-    const { page, issue, modelCount } = this.state;
+    const { page, issue, modelCount, smallScreen } = this.state;
     return (
       <div>
         <Header />
         {page === "main" ? (
           <Row>
-            {this.isMobile ? null : (
+            {this.isMobile || smallScreen ? null : (
               <Col span={8} className="menu-shadow">
                 <aside className="menu inner-left-space inner-top-space">
                   <p className="menu-label">Categories</p>
@@ -231,20 +286,48 @@ export default class App extends Component {
                 </aside>
               </Col>
             )}
-            <Col span={this.isMobile ? 24 : 16}>
+            <Col span={this.isMobile || smallScreen? 24 : 16}>
               <div className="site-card-wrapper layout-right-space inner-top-space">
                 <Row style={{ marginBottom: "10px" }}>
-                  <span className="title">{"Models/Pipelines: " + modelCount.toString()}</span>
+                  <span className="title">
+                    {"Models/Pipelines: " + modelCount.toString()}
+                  </span>
                   <input
                     ref={this.searchRef}
                     className="search-bar"
-                    placeholder="Search Title / Description"
+                    placeholder="Search"
                     onChange={() => {
                       this.setState({
                         seacrhText: this.searchRef.current.value.toLowerCase(),
                       });
                     }}
                   />
+                  {this.isMobile || smallScreen ? null : (
+                      <span
+                        className="sort-text"
+                        style={{
+                          display: "flex",
+                          marginLeft: "3vw",
+                          color: "gray",
+                          alignItems: "center",
+                        }}
+                      >
+                        {"Sort by:"}
+                        <Select
+                        defaultValue="popular"
+                        style={{ marginLeft:"10px", outline: 'none', width: '120px' }}
+                        onChange={(val) => {
+                          this.setState({
+                            sortby: val,
+                          });
+                        }}
+                      >
+                        <Option value="popular">Popularity</Option>
+                        <Option value="alpha">Alphabetical</Option>
+                        <Option value="date">Updated at</Option>
+                      </Select>
+                      </span>
+                  )}
                 </Row>
                 {this.drawModels()}
               </div>
