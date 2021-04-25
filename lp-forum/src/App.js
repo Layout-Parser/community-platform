@@ -168,6 +168,7 @@ export default class App extends Component {
       });
     }
     if (!taggedIssues.length) {
+      this.setState({ modelCount: taggedIssues.length });
       return (
         <Row>
           <span className="err-msg">
@@ -177,11 +178,7 @@ export default class App extends Component {
       );
     }
     this.sortIssues(taggedIssues);
-    // console.log(taggedIssues)
 
-    if (modelCount !== taggedIssues.length) {
-      this.setState({ modelCount: taggedIssues.length });
-    }
     let rows = [];
     let i,
       j,
@@ -190,6 +187,9 @@ export default class App extends Component {
     const openingIssues = taggedIssues.filter(
       (issue) => issue.state === "open"
     );
+    if (modelCount !== openingIssues.length) {
+      this.setState({ modelCount: openingIssues.length });
+    }
     for (i = 0, j = openingIssues.length; i < j; i += chunk) {
       groupedIssues = openingIssues.slice(i, i + chunk);
       rows.push(<Row>{this.drawRows(groupedIssues)}</Row>);
