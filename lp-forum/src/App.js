@@ -22,6 +22,7 @@ export default class App extends Component {
       category: ["model", "pipeline"], // models, pipelines
       tags: [], // selected tags
       seacrhText: "",
+      modelCount: 0,
     };
     var ua = navigator.userAgent;
     this.isMobile = /Android|iPhone/i.test(ua);
@@ -50,7 +51,7 @@ export default class App extends Component {
     let cols = [];
     issues.forEach((issue) => {
       cols.push(
-        <Col span={this.isMobile ? 24 : 8} className="center-col">
+        <Col span={this.isMobile ? 24 : 12} className="center-col">
           <div
             className="model-card"
             id={issue.number}
@@ -98,7 +99,7 @@ export default class App extends Component {
 
   // draw all cards of models / pipelines
   drawModels = () => {
-    const { issues, category, tags, seacrhText } = this.state;
+    const { issues, category, tags, seacrhText, modelCount } = this.state;
     let taggedIssues = [];
     issues.forEach((issue) => {
       const labels = issue.labels.map((label) => label.name);
@@ -123,11 +124,14 @@ export default class App extends Component {
         </Row>
       );
     }
+    if (modelCount !== taggedIssues.length) {
+      this.setState({modelCount: taggedIssues.length});
+    }
     let rows = [];
     let i,
       j,
       groupedIssues,
-      chunk = 3;
+      chunk = 2;
     const openingIssues = taggedIssues.filter(
       (issue) => issue.state === "open"
     );
@@ -208,15 +212,15 @@ export default class App extends Component {
   };
 
   render() {
-    const { page, issue } = this.state;
+    const { page, issue, modelCount } = this.state;
     return (
       <div>
         <Header />
         {page === "main" ? (
           <Row>
             {this.isMobile ? null : (
-              <Col span={6}>
-                <aside className="menu menu-padding">
+              <Col span={8} className="menu-shadow">
+                <aside className="menu inner-left-space inner-top-space">
                   <p className="menu-label">Categories</p>
                   <Row>
                     {this.tag("model")}
@@ -227,26 +231,21 @@ export default class App extends Component {
                 </aside>
               </Col>
             )}
-            <Col span={this.isMobile ? 24 : 18}>
-              <div className="site-card-wrapper">
+            <Col span={this.isMobile ? 24 : 16}>
+              <div className="site-card-wrapper layout-right-space inner-top-space">
                 <Row style={{ marginBottom: "2vw" }}>
+                  <span className="title">{"Models/Pipelines: " + modelCount.toString()}</span>
                   <input
                     ref={this.searchRef}
                     className="search-bar"
                     placeholder="Search Title / Description"
-                  />
-                  <button
-                    className="search-btn"
-                    onClick={() => {
+                    onChange={() => {
                       this.setState({
                         seacrhText: this.searchRef.current.value.toLowerCase(),
                       });
                     }}
-                  >
-                    search
-                  </button>
+                  />
                 </Row>
-                <span className="title">Models / Pipelines</span>
                 {this.drawModels()}
               </div>
             </Col>

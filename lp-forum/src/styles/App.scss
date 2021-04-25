@@ -29,43 +29,55 @@ $dark-red: #e8304f;
 .site-card-wrapper {
   min-height: 100vh;
   height: 100%;
-  padding: 30px 50px 50px 10px;
+  padding: 10px 0px 50px 80px;
+}
+
+// standard left/right spacing
+.layout-left-space {
+  padding-left: 6vw !important;
+}
+.layout-right-space {
+  padding-right: 6vw !important;
+}
+.inner-left-space {
+  padding-left: 8vw !important;
+}
+.inner-right-space {
+  padding-right: 8vw !important;
+}
+.inner-top-space {
+  padding-top: 20px !important;
 }
 
 // search related elements
 .search-bar {
-  font-size: 25px;
+  font-size: 18px;
   font-family: "Fira Sans Extra Condensed", sans-serif;
-  border: none;
+  border: 1px solid lightgray;
   outline: none;
-  border-bottom: 3px solid black;
-  width: 75%;
+  border-radius: 12px;
+  width: 40%;
   transition: 0.3s;
+  margin-left: 5vw;
+  padding-left: 10px;
 }
 .search-bar:focus {
-  border-bottom: 3px solid $dark-red;
-}
-.search-btn {
-  font-size: 25px;
-  font-family: "Fira Sans Extra Condensed", sans-serif;
-  font-weight: bold;
-  border: none;
-  background-color: transparent;
-  transition: 0.3s;
-}
-.search-btn:hover {
-  color: $dark-red;
+  border: 1px solid $dark-red;
 }
 
 .err-msg {
+  font-size: 2vw;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
   margin: 2vw;
 }
 
-.err-msg,
 .title {
-  font-size: 2vw;
+  color: gray !important;
+  margin: 0 !important;
+  display: inline;
+  vertical-align: middle;
+  font-size: 30px !important;
   font-family: "Fira Sans Extra Condensed", sans-serif;
-  margin-bottom: 2vw;
 }
 
 .model-card {
@@ -118,19 +130,18 @@ $dark-red: #e8304f;
 .center-col {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
+  justify-content: left !important;
   height: 16vw;
 }
 
 // sidebar elements
-.menu-padding {
-  height: 100%;
+.menu-shadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 1vw;
-  margin-right: 2vw;
 }
 
 .menu-label {
+  margin: 0.5vw;
+  height: 100%;
   font-size: 1vw !important;
   font-family: "Fira Sans Extra Condensed", sans-serif;
 }
@@ -195,5 +206,9 @@ $dark-red: #e8304f;
     width: 80%;
     height: 80%;
     padding: 3vw;
+  }
+
+  .center-col {
+    justify-content: center !important;
   }
 }

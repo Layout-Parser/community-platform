@@ -3,11 +3,13 @@
 // Navbar
 $navbar-item-img-max-height: 4rem;
 
+.header-color {
+  background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%);
+}
+
 .lp-navbar {
   height: 90px;
-  padding: 20px;
-  padding-bottom: 20px !important;
-  background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%);
+  padding: 20px 0 !important;
 }
 
 .hero-head .lp-navbar {
@@ -17,6 +19,10 @@ $navbar-item-img-max-height: 4rem;
 .lp-badge {
   height: 60px;
   vertical-align: middle;
+}
+
+.navbar {
+  background-color: inherit !important;
 }
 
 .navbar-item {

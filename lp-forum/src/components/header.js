@@ -5,9 +5,9 @@ import { GithubOutlined } from "@ant-design/icons";
 
 function Header() {
   return (
-    <div className="hero-head">
+    <div className="hero-head header-color">
+      <div className="layout-left-space layout-right-space">
       <nav className="navbar lp-navbar" role="navigation">
-        <div className="container">
           <div className="navbar-brand">
             <a className="navbar-item" href="https://layout-parser.github.io/">
               <img src={image} alt="Logo" className="lp-badge"></img>
@@ -65,8 +65,8 @@ function Header() {
               </div>
             </div>
           </div>
-        </div>
       </nav>
+      </div>
     </div>
   );
 }
