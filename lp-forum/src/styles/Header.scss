@@ -4,7 +4,9 @@
 $navbar-item-img-max-height: 4rem;
 
 .header-color {
+  padding-top: 20px;
   background-image: linear-gradient(141deg, #e8304f 0%, $red 71%, #ec8c79 100%);
+  box-shadow: 0px 2px 8px 2px rgb(0 0 0 / 25%);
 }
 
 .lp-navbar {
@@ -16,8 +18,11 @@ $navbar-item-img-max-height: 4rem;
   padding-bottom: 0px;
 }
 
+.navbar-item img {
+  max-height: 4rem !important;
+}
 .lp-badge {
-  height: 60px;
+  height: 40px;
   vertical-align: middle;
 }
 
@@ -28,7 +33,7 @@ $navbar-item-img-max-height: 4rem;
 .navbar-item {
   font-family: $family-header;
   font-weight: 400;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 a.navbar-item {

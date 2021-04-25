@@ -29,7 +29,6 @@ export default class Comments extends Component {
   render() {
     const { issue } = this.state;
     const { isMobile } = this.props;
-    console.log(issue);
 
     return (
       <p className="model-container">
@@ -68,7 +67,7 @@ export default class Comments extends Component {
             />
           </div>
         </div>
-        <Divider />
+        <Divider className="top-divider" />
         <div ref={this.commentBox} className="comment-box"></div>
       </p>
     );
