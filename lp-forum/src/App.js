@@ -233,7 +233,7 @@ export default class App extends Component {
             )}
             <Col span={this.isMobile ? 24 : 16}>
               <div className="site-card-wrapper layout-right-space inner-top-space">
-                <Row style={{ marginBottom: "2vw" }}>
+                <Row style={{ marginBottom: "10px" }}>
                   <span className="title">{"Models/Pipelines: " + modelCount.toString()}</span>
                   <input
                     ref={this.searchRef}

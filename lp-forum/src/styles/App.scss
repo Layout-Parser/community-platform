@@ -58,7 +58,7 @@ $dark-red: #e8304f;
   border-radius: 12px;
   width: 40%;
   transition: 0.3s;
-  margin-left: 5vw;
+  margin-left: 3vw;
   padding-left: 10px;
 }
 .search-bar:focus {
@@ -66,6 +66,7 @@ $dark-red: #e8304f;
 }
 
 .err-msg {
+  color: gray;
   font-size: 2vw;
   font-family: "Fira Sans Extra Condensed", sans-serif;
   margin: 2vw;
@@ -92,7 +93,7 @@ $dark-red: #e8304f;
   padding: 1vw;
   width: 80%;
   height: 80%;
-  font-size: 1vw;
+  font-size: 1.1vw;
   font-family: "Fira Sans Extra Condensed", sans-serif;
   color: white;
   transition: 0.1s;
@@ -100,10 +101,10 @@ $dark-red: #e8304f;
 .model-card:hover {
   border: 1px solid transparent;
   color: white;
-  font-size: 1.125vw;
+  font-size: calc(1.1vw *9/8);
   width: 90%;
   height: 90%;
-  padding: 1.125vw;
+  padding: calc(1vw *9/8);
 }
 
 .card-title {
@@ -176,15 +177,11 @@ $dark-red: #e8304f;
 
   .search-bar {
     font-size: 4vw;
-    border-bottom: 2px solid black;
-    margin-bottom: 20px;
-  }
-  .search-bar:focus {
-    border-bottom: 2px solid $dark-red;
+    margin-bottom: 10px;
   }
   .search-btn {
     font-size: 4vw;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .center-col {
@@ -192,7 +189,11 @@ $dark-red: #e8304f;
   }
 
   .title {
-    font-size: 5vw !important;
+    font-size: 4vw !important;
+  }
+
+  .err-msg {
+    font-size: 4vw;
   }
 
   .model-card {
