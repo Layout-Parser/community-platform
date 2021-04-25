@@ -25,7 +25,7 @@ export default class App extends Component {
       tags: [], // selected tags
       seacrhText: "",
       modelCount: 0,
-      smallScreen: window.innerWidth < 760 ? true : false,
+      smallScreen: window.innerWidth < 880 ? true : false,
       sortby: "popular",
     };
     var ua = navigator.userAgent;
@@ -53,10 +53,10 @@ export default class App extends Component {
   updateDimensions = () => {
     const vw = window.innerWidth;
     const { smallScreen } = this.state;
-    if (vw < 760 && !smallScreen) {
+    if (vw < 880 && !smallScreen) {
       this.setState({smallScreen: true});
     } 
-    if (vw > 760 && smallScreen) {
+    if (vw > 880 && smallScreen) {
       this.setState({smallScreen: false});
     }
   }
